@@ -1,6 +1,6 @@
 import axios, { Method, AxiosRequestConfig } from "axios";
 import { RouterStore } from "mobx-react-router";
-import { ErrorResponse } from ".";
+import { AppError } from "../interfaces";
 
 export class HttpService {
   BASE_URL = "http://localhost:3000";
@@ -18,24 +18,28 @@ export class HttpService {
     }
   }
 
-  _handleHttpError(e: any): ErrorResponse {
+  _handleHttpError(e: any): AppError {
     if (e.response) {
       const { status, data } = e.response;
       if (data && data.message) {
-        return { statusCode: status as number, message: data.message };
+        return { code: status as number, message: data.message };
       } else {
         return {
-          statusCode: status as number,
+          code: status as number,
           message: `Unknown ${status} Server Response`,
         };
       }
     } else if (e.request) {
       return {
-        statusCode: 0,
+        code: 0,
         message: "You're offline or server is down",
       };
     } else {
-      throw e;
+      console.error(e);
+      return {
+        code: 0,
+        message: "Client Error. Please Report to Dev",
+      };
     }
   }
 
