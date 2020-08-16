@@ -1,21 +1,30 @@
 import "./index.css";
 import React from "react";
 import ReactDOM from "react-dom";
+import { Provider } from "mobx-react";
 import { Router } from "react-router";
-import { RouterStore, syncHistoryWithStore } from "mobx-react-router";
+import { AuthService } from "./services";
 import { createBrowserHistory } from "history";
+import { RouterStore, syncHistoryWithStore } from "mobx-react-router";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
-const routerStore = new RouterStore();
+const services: { [key: string]: object } = {};
+const stores: { [key: string]: any } = {};
+
+stores.routerStore = new RouterStore();
 const browserHistory = createBrowserHistory();
-const history = syncHistoryWithStore(browserHistory, routerStore);
+const history = syncHistoryWithStore(browserHistory, stores.routerStore);
+
+services.authStore = new AuthService(stores.routerStore);
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router history={history}>
-      <App />
-    </Router>
+    <Provider {...stores}>
+      <Router history={history}>
+        <App />
+      </Router>
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );
