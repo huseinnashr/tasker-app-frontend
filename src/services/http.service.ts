@@ -9,7 +9,7 @@ export class HttpService {
 
   constructor(private routerStore: RouterStore) {}
 
-  async http<T>(method: Method, endpoint: string, data: any): Promise<T> {
+  async http<T>(method: Method, endpoint: string, data?: any): Promise<T> {
     const configs = this._getAxiosRequestConfig(method, endpoint, data);
     try {
       const res = await axios.request<T>(configs);
@@ -44,14 +44,10 @@ export class HttpService {
     }
   }
 
-  _handle401() {
-    this.routerStore.push("/signin");
-  }
-
   _getAxiosRequestConfig(
     method: Method,
     url: string,
-    data: any
+    data?: any
   ): AxiosRequestConfig {
     const auth = this.loadAuth();
 

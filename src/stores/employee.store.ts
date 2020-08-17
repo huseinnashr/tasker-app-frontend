@@ -1,8 +1,18 @@
-import { observable } from "mobx";
+import { observable, action } from "mobx";
 import { EmployeeService } from "../services";
+import { EmployeeListResponse } from "../services/employee/employee.payload";
 
 export class EmployeeStore {
-  @observable employees: any;
+  @observable employees: EmployeeListResponse = {
+    data: [],
+    permission: { create: false },
+  };
 
   constructor(private employeeService: EmployeeService) {}
+
+  @action
+  async getAll() {
+    const response = await this.employeeService.getAll();
+    this.employees = response;
+  }
 }

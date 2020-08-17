@@ -3,7 +3,7 @@ import { Button, Table } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { EmployeeStore } from "../../stores";
 import { EmployeeDTO } from "../../dtos/employee.dto";
-import { inject } from "mobx-react";
+import { inject, observer } from "mobx-react";
 
 interface Props {
   employeeStore?: EmployeeStore;
@@ -14,6 +14,7 @@ interface States {
 }
 
 @inject("employeeStore")
+@observer
 export class EmployeeListPage extends Component<Props, States> {
   columns = [
     {
@@ -50,6 +51,10 @@ export class EmployeeListPage extends Component<Props, States> {
     };
   }
 
+  componentDidMount() {
+    this.props.employeeStore!.getAll();
+  }
+
   render() {
     const { employees } = this.props.employeeStore!;
     return (
@@ -66,7 +71,7 @@ export class EmployeeListPage extends Component<Props, States> {
           rowKey="id"
           columns={this.columns}
           loading={this.state.employeeLoading}
-          dataSource={employees}
+          dataSource={employees.data}
         />
       </div>
     );
