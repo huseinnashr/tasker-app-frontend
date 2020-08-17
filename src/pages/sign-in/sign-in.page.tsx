@@ -35,7 +35,6 @@ export class SignInPage extends Component<SignInPageProps, SignInPageState> {
       await this.props.authStore!.signin(username, password);
     } catch (e) {
       if (!(e instanceof UserError)) throw e;
-      if (e.willUnmount) return;
       this.setState({ signInError: e, signInLoading: false });
     }
   };

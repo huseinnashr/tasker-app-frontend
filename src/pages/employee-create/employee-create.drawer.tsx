@@ -6,7 +6,6 @@ import { UserError } from "../../interfaces";
 import { inject } from "mobx-react";
 import { Roles } from "../../const";
 import { AlertMessage } from "../../components";
-import { CreateEmployeeDTO } from "../../services/employee/employee.payload";
 
 interface Props {
   employeeStore?: EmployeeStore;
@@ -44,12 +43,11 @@ export class EmployeeCreateDrawer extends Component<Props, States> {
     this.setState({ createError: null, createLoading: true });
     try {
       const formData = await this.formRef.current?.validateFields();
-      await this.props.employeeStore!.create(formData as CreateEmployeeDTO);
+      await this.props.employeeStore!.create(formData as any);
       this.onClose();
     } catch (e) {
       this.setState({ createLoading: false });
       if (!(e instanceof UserError)) throw e;
-      if (e.willUnmount) return;
       this.setState({ createError: e });
     }
   };

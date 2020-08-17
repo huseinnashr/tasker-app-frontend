@@ -1,5 +1,5 @@
 import axios, { Method, AxiosRequestConfig } from "axios";
-import { UserError } from "../interfaces";
+import { UserError, RedirectError } from "../interfaces";
 import { AuthStorageService } from "./auth-storage.service";
 
 export class HttpService {
@@ -21,7 +21,7 @@ export class HttpService {
       const auth = this.authStorage.get();
       if (auth && error.code === 401) {
         this.authStorage.remove();
-        error.willUnmount = true;
+        throw new RedirectError("Got 401 Unauthenticated. Logging out...");
       }
       throw error;
     }
