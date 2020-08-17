@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Breadcrumb } from "antd";
 import { Link } from "react-router-dom";
-import { inject } from "mobx-react";
+import { inject, observer } from "mobx-react";
 import { RouterStore } from "mobx-react-router";
 
 interface AppBreadcrumbProps {
@@ -9,6 +9,7 @@ interface AppBreadcrumbProps {
 }
 
 @inject("routerStore")
+@observer
 export class AppBreadcrumb extends Component<AppBreadcrumbProps> {
   render() {
     const { location } = this.props.routerStore!;
