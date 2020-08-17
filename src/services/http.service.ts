@@ -1,13 +1,13 @@
 import axios, { Method, AxiosRequestConfig } from "axios";
-import { RouterStore } from "mobx-react-router";
 import { AppError } from "../interfaces";
 import { SignInDTO } from "../dtos";
+import { AuthStorageService } from "./auth-storage.service";
 
 export class HttpService {
   BASE_URL = "http://localhost:3000";
   _auth: SignInDTO | null = null;
 
-  constructor(private routerStore: RouterStore) {}
+  constructor(private authStorage: AuthStorageService) {}
 
   async http<T>(method: Method, endpoint: string, data?: any): Promise<T> {
     const configs = this._getAxiosRequestConfig(method, endpoint, data);
@@ -19,7 +19,7 @@ export class HttpService {
     }
   }
 
-  _handleHttpError(e: any): AppError {
+  private _handleHttpError(e: any): AppError {
     if (e.response) {
       const { status, data } = e.response;
       if (data && data.message) {
@@ -44,12 +44,12 @@ export class HttpService {
     }
   }
 
-  _getAxiosRequestConfig(
+  private _getAxiosRequestConfig(
     method: Method,
     url: string,
     data?: any
   ): AxiosRequestConfig {
-    const auth = this.loadAuth();
+    const auth = this.authStorage.load();
 
     return {
       method,
@@ -60,30 +60,5 @@ export class HttpService {
         Authorization: `Bearer ${auth?.accessToken}`,
       },
     };
-  }
-
-  get Auth() {
-    return this._auth ? this._auth : this.loadAuth();
-  }
-
-  saveAuth(auth: SignInDTO) {
-    this._auth = auth;
-
-    const authString = JSON.stringify(auth);
-
-    return localStorage.setItem("auth", authString);
-  }
-
-  loadAuth(): SignInDTO | null {
-    const authString = localStorage.getItem("auth");
-    const auth = authString ? (JSON.parse(authString) as SignInDTO) : null;
-
-    this._auth = auth;
-
-    return auth;
-  }
-
-  removeAuth() {
-    localStorage.removeItem("auth");
   }
 }

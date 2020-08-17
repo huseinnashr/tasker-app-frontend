@@ -3,7 +3,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "mobx-react";
 import { Router } from "react-router-dom";
-import { AuthService, EmployeeService } from "./services";
+import { AuthService, EmployeeService, AuthStorageService } from "./services";
 import { createBrowserHistory } from "history";
 import { RouterStore, syncHistoryWithStore } from "mobx-react-router";
 import { App } from "./App";
@@ -14,10 +14,11 @@ const routerStore = new RouterStore();
 const browserHistory = createBrowserHistory();
 const history = syncHistoryWithStore(browserHistory, routerStore);
 
-const authService = new AuthService(routerStore);
-const employeeService = new EmployeeService(routerStore);
+const authStorage = new AuthStorageService();
+const authService = new AuthService(authStorage);
+const employeeService = new EmployeeService(authStorage);
 
-const authStore = new AuthStore(authService);
+const authStore = new AuthStore(authService, authStorage);
 const employeeStore = new EmployeeStore(employeeService);
 
 ReactDOM.render(

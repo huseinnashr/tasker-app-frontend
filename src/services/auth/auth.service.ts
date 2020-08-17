@@ -7,11 +7,6 @@ export class AuthService extends HttpService {
       username,
       password,
     });
-    this.saveAuth(response.data);
     return response;
-  }
-
-  async signout(): Promise<void> {
-    this.removeAuth();
   }
 }
