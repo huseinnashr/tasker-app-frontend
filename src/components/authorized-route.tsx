@@ -10,12 +10,13 @@ export class AuthorizedRoute extends Component<
 > {
   render() {
     const { children, authStore, ...rest } = this.props;
+    const { auth } = authStore!;
     return (
       <Route
         {...rest}
         render={({ location }) =>
-          authStore!.auth ? (
-            this.props.children
+          auth ? (
+            children
           ) : (
             <Redirect to={{ pathname: "/signin", state: { from: location } }} />
           )

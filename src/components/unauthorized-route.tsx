@@ -10,14 +10,15 @@ export class UnauthorizedRoute extends Component<
 > {
   render() {
     const { children, authStore, ...rest } = this.props;
+    const { auth } = authStore!;
     return (
       <Route
         {...rest}
         render={({ location }) =>
-          authStore!.auth ? (
+          auth ? (
             <Redirect to={{ pathname: "/", state: { from: location } }} />
           ) : (
-            this.props.children
+            children
           )
         }
       />
