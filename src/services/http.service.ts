@@ -49,7 +49,7 @@ export class HttpService {
     url: string,
     data?: any
   ): AxiosRequestConfig {
-    const auth = this.authStorage.load();
+    const auth = this.authStorage.get();
 
     return {
       method,

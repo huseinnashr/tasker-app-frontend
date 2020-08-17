@@ -9,7 +9,7 @@ export class AuthStore {
     private authService: AuthService,
     private authStorage: AuthStorageService
   ) {
-    this.auth = this.authStorage.load();
+    this.auth = this.authStorage.get();
   }
 
   @action
