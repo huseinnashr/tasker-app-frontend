@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route, Redirect, RouteProps } from "react-router";
+import { Route, Redirect, RouteProps } from "react-router-dom";
 import { inject, observer } from "mobx-react";
 import AuthStore from "../stores/auth.store";
 
