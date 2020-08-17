@@ -1,12 +1,11 @@
 import "./App.css";
 import React, { Fragment, Component } from "react";
-import { inject, observer } from "mobx-react";
-import { Switch } from "react-router";
+import { Switch } from "react-router-dom";
 import { SignInPage, EmployeeListPage } from "./pages";
 import { UnauthorizedRoute, AuthorizedRoute } from "./components";
+import { Layout } from "antd";
+import { AppNavbar } from "./layout";
 
-@inject("routerStore")
-@observer
 export class App extends Component {
   render() {
     return (
@@ -16,7 +15,10 @@ export class App extends Component {
             <SignInPage />
           </UnauthorizedRoute>
           <AuthorizedRoute path="/">
-            <EmployeeListPage />
+            <Layout>
+              <AppNavbar />
+              <EmployeeListPage />
+            </Layout>
           </AuthorizedRoute>
         </Switch>
       </Fragment>
