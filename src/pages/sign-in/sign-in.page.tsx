@@ -9,8 +9,8 @@ import { RouterStore } from "mobx-react-router";
 import { AppError } from "../../interfaces";
 
 interface SignInPageProps {
-  authStore: AuthStore;
-  routerStore: RouterStore;
+  authStore?: AuthStore;
+  routerStore?: RouterStore;
 }
 
 interface SignInPageState {
@@ -32,11 +32,10 @@ export class SignInPage extends Component<SignInPageProps, SignInPageState> {
     const { username, password } = data;
     this.setState({ signInError: null, signInLoading: true });
     try {
-      await this.props.authStore.signin(username, password);
+      await this.props.authStore!.signin(username, password);
     } catch (e) {
-      this.setState({ signInError: e });
+      this.setState({ signInError: e, signInLoading: false });
     }
-    this.setState({ signInLoading: false });
   };
 
   render() {
