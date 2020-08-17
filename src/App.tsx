@@ -4,7 +4,7 @@ import { Switch } from "react-router-dom";
 import { SignInPage, EmployeeListPage } from "./pages";
 import { UnauthorizedRoute, AuthorizedRoute } from "./components";
 import { Layout } from "antd";
-import { AppNavbar } from "./layout";
+import { AppNavbar, AppContent, AppFooter } from "./layout";
 
 export class App extends Component {
   render() {
@@ -17,7 +17,10 @@ export class App extends Component {
           <AuthorizedRoute path="/">
             <Layout>
               <AppNavbar />
-              <EmployeeListPage />
+              <AppContent>
+                <EmployeeListPage />
+              </AppContent>
+              <AppFooter />
             </Layout>
           </AuthorizedRoute>
         </Switch>
