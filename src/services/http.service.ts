@@ -1,15 +1,17 @@
 import axios, { Method, AxiosRequestConfig } from "axios";
 import { UserError } from "../interfaces";
-import { SignInDTO } from "../dtos";
 import { AuthStorageService } from "./auth-storage.service";
 
 export class HttpService {
-  BASE_URL = "http://localhost:3000";
-  _auth: SignInDTO | null = null;
+  private BASE_URL = "http://localhost:3000";
 
   constructor(private authStorage: AuthStorageService) {}
 
-  async http<T>(method: Method, endpoint: string, data?: any): Promise<T> {
+  protected async http<T>(
+    method: Method,
+    endpoint: string,
+    data?: any
+  ): Promise<T> {
     const configs = this._getAxiosRequestConfig(method, endpoint, data);
     try {
       const res = await axios.request<T>(configs);

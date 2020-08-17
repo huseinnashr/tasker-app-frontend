@@ -4,6 +4,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import { EmployeeStore } from "../../stores";
 import { EmployeeDTO } from "../../dtos/employee.dto";
 import { inject, observer } from "mobx-react";
+import { EmployeeCreateDrawer } from "..";
 
 interface Props {
   employeeStore?: EmployeeStore;
@@ -43,6 +44,8 @@ export class EmployeeListPage extends Component<Props, States> {
     },
   ];
 
+  createDrawer = React.createRef<EmployeeCreateDrawer>();
+
   constructor(props: Props) {
     super(props);
 
@@ -66,6 +69,7 @@ export class EmployeeListPage extends Component<Props, States> {
           type="primary"
           style={{ marginBottom: "16px" }}
           icon={<PlusOutlined />}
+          onClick={() => this.createDrawer.current?.openDrawer()}
         >
           Create an Employee
         </Button>
@@ -75,6 +79,7 @@ export class EmployeeListPage extends Component<Props, States> {
           loading={this.state.employeeLoading}
           dataSource={employees.data}
         />
+        <EmployeeCreateDrawer ref={this.createDrawer} />
       </div>
     );
   }
