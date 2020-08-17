@@ -1,7 +1,7 @@
 import axios, { Method, AxiosRequestConfig } from "axios";
 import { RouterStore } from "mobx-react-router";
 import { AppError } from "../interfaces";
-import { SignInDTO } from "./auth";
+import { SignInDTO } from "../dtos";
 
 export class HttpService {
   BASE_URL = "http://localhost:3000";

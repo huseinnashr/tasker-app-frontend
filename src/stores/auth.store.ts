@@ -1,5 +1,6 @@
 import { observable, action } from "mobx";
-import { AuthService, SignInDTO } from "../services";
+import { AuthService } from "../services";
+import { SignInDTO } from "../dtos";
 
 export default class AuthStore {
   @observable auth: SignInDTO | null = null;
