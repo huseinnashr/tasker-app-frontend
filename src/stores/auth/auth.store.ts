@@ -1,8 +1,8 @@
 import { observable, action } from "mobx";
-import { AuthService } from "../services";
-import { SignInDTO } from "../dtos";
+import { AuthService } from "../../services";
+import { SignInDTO } from "../../dtos";
 
-export default class AuthStore {
+export class AuthStore {
   @observable auth: SignInDTO | null = null;
 
   constructor(private authService: AuthService) {

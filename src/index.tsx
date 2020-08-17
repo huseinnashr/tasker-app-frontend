@@ -8,8 +8,7 @@ import { createBrowserHistory } from "history";
 import { RouterStore, syncHistoryWithStore } from "mobx-react-router";
 import { App } from "./App";
 import * as serviceWorker from "./serviceWorker";
-import AuthStore from "./stores/auth.store";
-import { EmployeeStore } from "./stores";
+import { EmployeeStore, AuthStore } from "./stores";
 
 const routerStore = new RouterStore();
 const browserHistory = createBrowserHistory();

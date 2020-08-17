@@ -1,6 +1,6 @@
 import { observable, action } from "mobx";
-import { EmployeeService } from "../services";
-import { EmployeeListResponse } from "../services/employee/employee.payload";
+import { EmployeeService } from "../../services";
+import { EmployeeListResponse } from "../../services/employee/employee.payload";
 
 export class EmployeeStore {
   @observable employees: EmployeeListResponse = {

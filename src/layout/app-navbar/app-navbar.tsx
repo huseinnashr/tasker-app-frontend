@@ -3,7 +3,7 @@ import { Layout, Menu } from "antd";
 import { Link } from "react-router-dom";
 import { UserOutlined } from "@ant-design/icons";
 import { inject, observer } from "mobx-react";
-import AuthStore from "../../stores/auth.store";
+import { AuthStore } from "../../stores";
 
 interface AppNavbarProps {
   authStore?: AuthStore;

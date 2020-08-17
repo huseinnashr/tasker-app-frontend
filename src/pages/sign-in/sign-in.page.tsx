@@ -4,7 +4,7 @@ import { Alert, Row, Col, Typography, Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { inject } from "mobx-react";
 import { AlertMessage } from "../../components";
-import AuthStore from "../../stores/auth.store";
+import { AuthStore } from "../../stores";
 import { RouterStore } from "mobx-react-router";
 import { AppError } from "../../interfaces";
 
