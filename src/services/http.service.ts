@@ -14,8 +14,13 @@ export class HttpService {
     try {
       const res = await axios.request<T>(configs);
       return res.data;
-    } catch (error) {
-      throw this._handleHttpError(error);
+    } catch (_error) {
+      const error = this._handleHttpError(_error);
+      const auth = this.authStorage.get();
+      if (auth && error.code === 401) {
+        this.authStorage.remove();
+      }
+      throw error;
     }
   }
 

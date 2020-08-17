@@ -21,8 +21,6 @@ const employeeService = new EmployeeService(authStorage);
 const authStore = new AuthStore(authService, authStorage);
 const employeeStore = new EmployeeStore(employeeService);
 
-authStorage.remove();
-
 ReactDOM.render(
   <React.StrictMode>
     <Provider {...{ routerStore, authStore, employeeStore }}>

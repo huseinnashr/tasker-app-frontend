@@ -51,8 +51,10 @@ export class EmployeeListPage extends Component<Props, States> {
     };
   }
 
-  componentDidMount() {
-    this.props.employeeStore!.getAll();
+  async componentDidMount() {
+    this.setState({ employeeLoading: true });
+    await this.props.employeeStore!.getAll();
+    this.setState({ employeeLoading: false });
   }
 
   render() {
