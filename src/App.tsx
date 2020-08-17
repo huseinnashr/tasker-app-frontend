@@ -18,7 +18,9 @@ export class App extends Component {
             <Layout>
               <AppNavbar />
               <AppContent>
-                <EmployeeListPage />
+                <AuthorizedRoute exact path="/admin/employee">
+                  <EmployeeListPage />
+                </AuthorizedRoute>
               </AppContent>
               <AppFooter />
             </Layout>

@@ -3,24 +3,27 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "mobx-react";
 import { Router } from "react-router-dom";
-import { AuthService } from "./services";
+import { AuthService, EmployeeService } from "./services";
 import { createBrowserHistory } from "history";
 import { RouterStore, syncHistoryWithStore } from "mobx-react-router";
 import { App } from "./App";
 import * as serviceWorker from "./serviceWorker";
 import AuthStore from "./stores/auth.store";
+import { EmployeeStore } from "./stores";
 
 const routerStore = new RouterStore();
 const browserHistory = createBrowserHistory();
 const history = syncHistoryWithStore(browserHistory, routerStore);
 
 const authService = new AuthService(routerStore);
+const employeeService = new EmployeeService(routerStore);
 
 const authStore = new AuthStore(authService);
+const employeeStore = new EmployeeStore(employeeService);
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider {...{ routerStore, authStore }}>
+    <Provider {...{ routerStore, authStore, employeeStore }}>
       <Router history={history}>
         <App />
       </Router>
