@@ -15,6 +15,6 @@ export default class AuthStore {
   @action
   signout() {
     this.auth = null;
-    this.authService.removeToken();
+    this.authService.removeAuth();
   }
 }

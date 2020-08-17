@@ -1,10 +1,11 @@
 import axios, { Method, AxiosRequestConfig } from "axios";
 import { RouterStore } from "mobx-react-router";
 import { AppError } from "../interfaces";
+import { SignInDTO } from "./auth";
 
 export class HttpService {
   BASE_URL = "http://localhost:3000";
-  _accessToken: string | null = null;
+  _auth: SignInDTO | null = null;
 
   constructor(private routerStore: RouterStore) {}
 
@@ -52,7 +53,7 @@ export class HttpService {
     url: string,
     data: any
   ): AxiosRequestConfig {
-    const token = this.loadToken();
+    const auth = this.loadAuth();
 
     return {
       method,
@@ -60,27 +61,33 @@ export class HttpService {
       url,
       data,
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${auth?.accessToken}`,
       },
     };
   }
 
-  get accessToken() {
-    return this._accessToken ? this._accessToken : this.loadToken();
+  get Auth() {
+    return this._auth ? this._auth : this.loadAuth();
   }
 
-  saveToken(accessToken: string) {
-    this._accessToken = accessToken;
-    return localStorage.setItem("accessToken", accessToken);
+  saveAuth(auth: SignInDTO) {
+    this._auth = auth;
+
+    const authString = JSON.stringify(auth);
+
+    return localStorage.setItem("auth", authString);
   }
 
-  loadToken() {
-    const token = localStorage.getItem("accessToken");
-    this._accessToken = token;
-    return token;
+  loadAuth(): SignInDTO | null {
+    const authString = localStorage.getItem("auth");
+    const auth = authString ? (JSON.parse(authString) as SignInDTO) : null;
+
+    this._auth = auth;
+
+    return auth;
   }
 
-  removeToken() {
-    localStorage.removeItem("accessToken");
+  removeAuth() {
+    localStorage.removeItem("auth");
   }
 }
