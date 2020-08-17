@@ -1,5 +1,5 @@
 import { HttpService } from "../http.service";
-import { SignInResponse } from ".";
+import { SignInResponse } from "./auth.payload";
 
 export class AuthService extends HttpService {
   async signin(username: string, password: string): Promise<SignInResponse> {
