@@ -1,22 +1,31 @@
 import { observable, action } from "mobx";
-import { AuthService, AuthStorageService } from "../../services";
+import {
+  AuthService,
+  AuthStorageService,
+  AuthStorageSubscriber,
+} from "../../services";
 import { SignInDTO } from "../../dtos";
 
-export class AuthStore {
+export class AuthStore implements AuthStorageSubscriber {
   @observable auth: SignInDTO | null = null;
 
   constructor(
     private authService: AuthService,
     private authStorage: AuthStorageService
   ) {
+    this.authStorage.addSubscriber(this);
     this.auth = this.authStorage.get();
+  }
+
+  onAuthStorageChange(auth: SignInDTO | null) {
+    this.auth = auth;
   }
 
   @action
   async signin(username: string, password: string) {
     const response = await this.authService.signin(username, password);
     this.auth = response.data;
-    this.authStorage.save(this.auth);
+    this.authStorage.save(response.data);
   }
 
   @action
