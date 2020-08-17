@@ -6,7 +6,7 @@ import { inject } from "mobx-react";
 import { AlertMessage } from "../../components";
 import { AuthStore } from "../../stores";
 import { RouterStore } from "mobx-react-router";
-import { AppError } from "../../interfaces";
+import { UserError } from "../../interfaces";
 
 interface SignInPageProps {
   authStore?: AuthStore;
@@ -14,7 +14,7 @@ interface SignInPageProps {
 }
 
 interface SignInPageState {
-  signInError: AppError | null;
+  signInError: UserError | null;
   signInLoading: boolean;
 }
 
@@ -34,6 +34,8 @@ export class SignInPage extends Component<SignInPageProps, SignInPageState> {
     try {
       await this.props.authStore!.signin(username, password);
     } catch (e) {
+      if (!(e instanceof UserError)) throw e;
+      if (e.willUnmount) return;
       this.setState({ signInError: e, signInLoading: false });
     }
   };

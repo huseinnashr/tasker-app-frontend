@@ -1,5 +1,5 @@
 import axios, { Method, AxiosRequestConfig } from "axios";
-import { AppError } from "../interfaces";
+import { UserError } from "../interfaces";
 import { SignInDTO } from "../dtos";
 import { AuthStorageService } from "./auth-storage.service";
 
@@ -19,33 +19,28 @@ export class HttpService {
       const auth = this.authStorage.get();
       if (auth && error.code === 401) {
         this.authStorage.remove();
+        error.willUnmount = true;
       }
       throw error;
     }
   }
 
-  private _handleHttpError(e: any): AppError {
+  private _handleHttpError(e: any): UserError {
     if (e.response) {
       const { status, data } = e.response;
       if (data && data.message) {
-        return { code: status as number, message: data.message };
+        return new UserError(status as number, data.message);
       } else {
-        return {
-          code: status as number,
-          message: `Unknown ${status} Server Response`,
-        };
+        return new UserError(
+          status as number,
+          `Unknown ${status} Server Response`
+        );
       }
     } else if (e.request) {
-      return {
-        code: 0,
-        message: "You're offline or server is down",
-      };
+      return new UserError(0, "You're offline or server is down");
     } else {
       console.error(e);
-      return {
-        code: 0,
-        message: "Client Error. Please Report to Dev",
-      };
+      return new UserError(0, "Client Error. Please Report to Dev");
     }
   }
 
