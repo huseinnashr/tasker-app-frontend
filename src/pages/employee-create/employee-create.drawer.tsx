@@ -1,62 +1,88 @@
 import React, { Component } from "react";
-import { Button, Form, Input, Drawer, Alert, Select } from "antd";
+import { Button, Form, Input, Drawer, Alert, Select, Space } from "antd";
 import { FormInstance } from "antd/lib/form";
 import { EmployeeStore } from "../../stores";
 import { UserError } from "../../interfaces";
-import { inject } from "mobx-react";
+import { inject, observer } from "mobx-react";
 import { Roles } from "../../const";
 import { AlertMessage } from "../../components";
+import { EmployeeEntityResponse } from "../../services/employee/employee.payload";
 
 interface Props {
   employeeStore?: EmployeeStore;
 }
 
 interface States {
-  createLoading: boolean;
-  createError: UserError | null;
+  upsertLoading: boolean;
+  upsertError: UserError | null;
   visible: boolean;
+  employee: EmployeeEntityResponse | null;
 }
 
 @inject("employeeStore")
-export class EmployeeCreateDrawer extends Component<Props, States> {
+@observer
+export class EmployeeDetailDrawer extends Component<Props, States> {
   formRef = React.createRef<FormInstance>();
 
   constructor(props: Props) {
     super(props);
     this.state = {
-      createLoading: false,
-      createError: null,
+      upsertLoading: false,
+      upsertError: null,
       visible: false,
+      employee: null,
     };
   }
 
-  openDrawer = () => {
+  openDrawer = async (id?: number) => {
+    if (id) {
+      try {
+        const employee = await this.props.employeeStore!.get(id);
+        this.formRef.current?.setFieldsValue(employee.data);
+        this.setState({ employee });
+      } catch (e) {
+        if (!(e instanceof UserError)) throw e;
+        console.log(e);
+        return;
+      }
+    }
     this.setState({ visible: true });
   };
 
   private onClose = () => {
     this.formRef.current?.resetFields();
-    this.setState({ createError: null, createLoading: false, visible: false });
+    this.setState({
+      upsertError: null,
+      upsertLoading: false,
+      visible: false,
+      employee: null,
+    });
   };
 
-  private onCreate = async () => {
-    this.setState({ createError: null, createLoading: true });
+  private onUpsert = async (id: number | null) => {
+    this.setState({ upsertError: null, upsertLoading: true });
     try {
       const formData = await this.formRef.current?.validateFields();
-      await this.props.employeeStore!.create(formData as any);
+      await this.props.employeeStore!.upsert(id, formData as any);
       this.onClose();
     } catch (e) {
-      this.setState({ createLoading: false });
+      this.setState({ upsertLoading: false });
       if (!(e instanceof UserError)) throw e;
-      this.setState({ createError: e });
+      this.setState({ upsertError: e });
     }
   };
 
   render() {
+    const employee = this.state.employee?.data;
     return (
       <Drawer
-        title={"Create a new Employee"}
+        title={
+          employee
+            ? `Employee ${employee.username} - ${employee.role}`
+            : "Create a new Employee"
+        }
         width={420}
+        forceRender={true}
         visible={this.state.visible}
         afterVisibleChange={(visible) => {
           if (!visible) this.onClose();
@@ -69,22 +95,25 @@ export class EmployeeCreateDrawer extends Component<Props, States> {
               textAlign: "right",
             }}
           >
-            <Button
-              disabled={this.state.createLoading}
-              onClick={() => this.setState({ visible: false })}
-              style={{ marginRight: 8 }}
-            >
-              Cancel
-            </Button>
-            <Button
-              disabled={this.state.createLoading}
-              loading={this.state.createLoading}
-              onClick={this.onCreate}
-              type="primary"
-            >
-              Create
-            </Button>
-            )
+            <Space>
+              <Button
+                disabled={this.state.upsertLoading}
+                onClick={() => this.setState({ visible: false })}
+              >
+                Cancel
+              </Button>
+
+              <Button
+                disabled={this.state.upsertLoading}
+                loading={this.state.upsertLoading}
+                onClick={() => {
+                  this.onUpsert(employee?.id ?? null);
+                }}
+                type="primary"
+              >
+                {employee ? "Update" : "Create"}
+              </Button>
+            </Space>
           </div>
         }
       >
@@ -94,10 +123,10 @@ export class EmployeeCreateDrawer extends Component<Props, States> {
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}
         >
-          {this.state.createError ? (
+          {this.state.upsertError ? (
             <Alert
               message={
-                <AlertMessage message={this.state.createError.message} />
+                <AlertMessage message={this.state.upsertError.message} />
               }
               type="error"
               style={{ marginBottom: "16px" }}
@@ -123,9 +152,16 @@ export class EmployeeCreateDrawer extends Component<Props, States> {
           <Form.Item
             label="Password"
             name="password"
-            rules={[{ required: true, message: "Please input the Password!" }]}
+            rules={
+              employee
+                ? []
+                : [{ required: true, message: "Please input the Password!" }]
+            }
           >
-            <Input type="password" placeholder="Password" />
+            <Input
+              type="password"
+              placeholder={employee ? "(Unchanged)" : "Password"}
+            />
           </Form.Item>
         </Form>
       </Drawer>

@@ -3,6 +3,8 @@ import { EmployeeService } from "../../services";
 import {
   EmployeeListResponse,
   CreateEmployeeDTO,
+  EmployeeEntityResponse,
+  UpdateEmployeeDTO,
 } from "../../services/employee/employee.payload";
 
 export class EmployeeStore {
@@ -10,6 +12,7 @@ export class EmployeeStore {
     data: [],
     permission: { create: false },
   };
+  @observable employee: EmployeeEntityResponse | null = null;
 
   constructor(private employeeService: EmployeeService) {}
 
@@ -26,5 +29,29 @@ export class EmployeeStore {
       ...this.employees.data,
       response.data,
     ]);
+  }
+
+  @action
+  async get(id: number): Promise<EmployeeEntityResponse> {
+    const response = await this.employeeService.get(id);
+    this.employee = response;
+    return this.employee;
+  }
+
+  @action
+  async update(id: number, data: UpdateEmployeeDTO) {
+    const response = await this.employeeService.update(id, data);
+    const idx = this.employees.data.findIndex((e) => e.id === id);
+    this.employees.data[idx] = response.data;
+    this.employees.data = observable.array(this.employees.data);
+  }
+
+  @action
+  async upsert(id: number | null, data: CreateEmployeeDTO | UpdateEmployeeDTO) {
+    if (id) {
+      return this.update(id, data);
+    } else {
+      return this.create(data);
+    }
   }
 }
