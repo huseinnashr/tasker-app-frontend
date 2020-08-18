@@ -13,22 +13,22 @@ interface Props {
 }
 
 interface States {
-  upsertLoading: boolean;
-  upsertError: UserError | null;
+  manageLoading: boolean;
+  manageError: UserError | null;
   visible: boolean;
   employee: EmployeeEntityResponse | null;
 }
 
 @inject("employeeStore")
 @observer
-export class EmployeeDetailDrawer extends Component<Props, States> {
+export class EmployeeManageDrawer extends Component<Props, States> {
   formRef = React.createRef<FormInstance>();
 
   constructor(props: Props) {
     super(props);
     this.state = {
-      upsertLoading: false,
-      upsertError: null,
+      manageLoading: false,
+      manageError: null,
       visible: false,
       employee: null,
     };
@@ -52,23 +52,23 @@ export class EmployeeDetailDrawer extends Component<Props, States> {
   private onClose = () => {
     this.formRef.current?.resetFields();
     this.setState({
-      upsertError: null,
-      upsertLoading: false,
+      manageError: null,
+      manageLoading: false,
       visible: false,
       employee: null,
     });
   };
 
   private onUpsert = async (id: number | null) => {
-    this.setState({ upsertError: null, upsertLoading: true });
+    this.setState({ manageError: null, manageLoading: true });
     try {
       const formData = await this.formRef.current?.validateFields();
       await this.props.employeeStore!.upsert(id, formData as any);
       this.onClose();
     } catch (e) {
-      this.setState({ upsertLoading: false });
+      this.setState({ manageLoading: false });
       if (!(e instanceof UserError)) throw e;
-      this.setState({ upsertError: e });
+      this.setState({ manageError: e });
     }
   };
 
@@ -97,15 +97,15 @@ export class EmployeeDetailDrawer extends Component<Props, States> {
           >
             <Space>
               <Button
-                disabled={this.state.upsertLoading}
+                disabled={this.state.manageLoading}
                 onClick={() => this.setState({ visible: false })}
               >
                 Cancel
               </Button>
 
               <Button
-                disabled={this.state.upsertLoading}
-                loading={this.state.upsertLoading}
+                disabled={this.state.manageLoading}
+                loading={this.state.manageLoading}
                 onClick={() => {
                   this.onUpsert(employee?.id ?? null);
                 }}
@@ -123,10 +123,10 @@ export class EmployeeDetailDrawer extends Component<Props, States> {
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}
         >
-          {this.state.upsertError ? (
+          {this.state.manageError ? (
             <Alert
               message={
-                <AlertMessage message={this.state.upsertError.message} />
+                <AlertMessage message={this.state.manageError.message} />
               }
               type="error"
               style={{ marginBottom: "16px" }}
