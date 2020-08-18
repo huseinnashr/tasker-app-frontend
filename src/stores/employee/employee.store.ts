@@ -54,4 +54,12 @@ export class EmployeeStore {
       return this.create(data);
     }
   }
+
+  @action
+  async delete(id: number) {
+    await this.employeeService.delete(id);
+    this.employees.data = observable.array(
+      this.employees.data.filter((e) => e.id !== id)
+    );
+  }
 }

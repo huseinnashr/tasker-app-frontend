@@ -1,5 +1,14 @@
 import React, { Component } from "react";
-import { Button, Form, Input, Drawer, Alert, Select, Space } from "antd";
+import {
+  Button,
+  Form,
+  Input,
+  Drawer,
+  Alert,
+  Select,
+  Space,
+  Popconfirm,
+} from "antd";
 import { FormInstance } from "antd/lib/form";
 import { EmployeeStore } from "../../stores";
 import { UserError } from "../../interfaces";
@@ -72,14 +81,47 @@ export class EmployeeManageDrawer extends Component<Props, States> {
     }
   };
 
+  private onDelete = async (id: number) => {
+    this.setState({ manageError: null, manageLoading: true });
+    try {
+      await this.props.employeeStore!.delete(id);
+      this.onClose();
+    } catch (e) {
+      this.setState({ manageLoading: false });
+      if (!(e instanceof UserError)) throw e;
+      this.setState({ manageError: e });
+    }
+  };
+
   render() {
     const employee = this.state.employee?.data;
     return (
       <Drawer
         title={
-          employee
-            ? `Employee ${employee.username} - ${employee.role}`
-            : "Create a new Employee"
+          employee ? (
+            <Space>
+              <Popconfirm
+                placement="bottom"
+                title={"Are you sure want to delete this employee?"}
+                onConfirm={() => this.onDelete(employee.id)}
+                okText="Yes"
+                cancelText="No"
+              >
+                <Button
+                  disabled={this.state.manageLoading}
+                  loading={this.state.manageLoading}
+                  type="primary"
+                  danger
+                >
+                  Delete
+                </Button>
+              </Popconfirm>
+
+              {`Employee ${employee.username} - ${employee.role}`}
+            </Space>
+          ) : (
+            "Create a new Employee"
+          )
         }
         width={420}
         forceRender={true}

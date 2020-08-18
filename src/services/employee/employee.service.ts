@@ -26,4 +26,8 @@ export class EmployeeService extends HttpService {
   async update(id: number, data: CreateEmployeeDTO): Promise<LE> {
     return this.http<LE>("PUT", `/employee/${id}`, data);
   }
+
+  async delete(id: number): Promise<void> {
+    return this.http("DELETE", `/employee/${id}`);
+  }
 }
