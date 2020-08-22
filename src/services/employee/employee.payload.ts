@@ -13,3 +13,10 @@ export type UpdateEmployeeDTO = CreateEmployeeDTO;
 export type EmployeeListResponse = ListResponse<EmployeeDTO>;
 export type EmployeeListEntityResponse = ListEntityResponse<EmployeeDTO>;
 export type EmployeeEntityResponse = EntityResponse<EmployeeDTO>;
+
+export interface ProfilePictureDTO {
+  url: string;
+}
+
+export interface ProfilePictureEntityResponse
+  extends EntityResponse<ProfilePictureDTO> {}

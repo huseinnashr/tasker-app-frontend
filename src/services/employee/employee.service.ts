@@ -4,11 +4,14 @@ import {
   EmployeeListEntityResponse,
   CreateEmployeeDTO,
   EmployeeEntityResponse,
+  ProfilePictureEntityResponse,
 } from "./employee.payload";
+import { OnUploadProgress } from "..";
 
 type L = EmployeeListResponse;
 type LE = EmployeeListEntityResponse;
 type E = EmployeeEntityResponse;
+type PPE = ProfilePictureEntityResponse;
 
 export class EmployeeService extends HttpService {
   async getAll(): Promise<L> {
@@ -29,5 +32,14 @@ export class EmployeeService extends HttpService {
 
   async delete(id: number): Promise<void> {
     return this.http("DELETE", `/employee/${id}`);
+  }
+
+  async upload(
+    data: FormData,
+    onUploadProgress: OnUploadProgress
+  ): Promise<PPE> {
+    return this.http<PPE>("POST", `/employee/profile-picture`, data, {
+      onUploadProgress,
+    });
   }
 }

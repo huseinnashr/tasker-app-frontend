@@ -1,10 +1,11 @@
 import { observable, action } from "mobx";
-import { EmployeeService } from "../../services";
+import { EmployeeService, OnUploadProgress } from "../../services";
 import {
   EmployeeListResponse,
   CreateEmployeeDTO,
   EmployeeEntityResponse,
   UpdateEmployeeDTO,
+  ProfilePictureEntityResponse,
 } from "../../services/employee/employee.payload";
 
 export class EmployeeStore {
@@ -61,5 +62,13 @@ export class EmployeeStore {
     this.employees.data = observable.array(
       this.employees.data.filter((e) => e.id !== id)
     );
+  }
+
+  @action
+  async upload(
+    data: FormData,
+    onUploadProgress: OnUploadProgress
+  ): Promise<ProfilePictureEntityResponse> {
+    return this.employeeService.upload(data, onUploadProgress);
   }
 }
