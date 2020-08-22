@@ -2,19 +2,29 @@ import axios, { Method, AxiosRequestConfig } from "axios";
 import { UserError, RedirectError } from "../interfaces";
 import { AuthStorageService } from "./auth-storage.service";
 
-export class HttpService {
-  private BASE_URL = "http://localhost:3000";
+interface DefaultAxiosConfig {
+  method: Method;
+  baseURL: string;
+  url: string;
+  data: any;
+  headers: any;
+}
 
+type OtherAxiosConfig = Omit<AxiosRequestConfig, keyof DefaultAxiosConfig>;
+
+export const BACKEND_URL = "http://localhost:3000";
+export class HttpService {
   constructor(private authStorage: AuthStorageService) {}
 
   protected async http<T>(
     method: Method,
     endpoint: string,
-    data?: any
+    data?: any,
+    config?: OtherAxiosConfig
   ): Promise<T> {
-    const configs = this._getAxiosRequestConfig(method, endpoint, data);
+    const defaultConfig = this._getAxiosRequestConfig(method, endpoint, data);
     try {
-      const res = await axios.request<T>(configs);
+      const res = await axios.request<T>({ ...defaultConfig, ...config });
       return res.data;
     } catch (_error) {
       const error = this._handleHttpError(_error);
@@ -50,12 +60,12 @@ export class HttpService {
     method: Method,
     url: string,
     data?: any
-  ): AxiosRequestConfig {
+  ): DefaultAxiosConfig {
     const auth = this.authStorage.get();
 
     return {
       method,
-      baseURL: this.BASE_URL,
+      baseURL: BACKEND_URL,
       url,
       data,
       headers: {
