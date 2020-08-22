@@ -211,7 +211,7 @@ export class EmployeeManageDrawer extends Component<Props, States> {
                 ))}
               </Select>
             </Form.Item>
-            <Form.Item label="Picture" name="profile_picture">
+            <Form.Item label="Picture" name="profilePicture">
               <ProfilePictureUpload />
             </Form.Item>
             <Form.Item

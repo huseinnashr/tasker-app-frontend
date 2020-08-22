@@ -5,5 +5,5 @@ export interface EmployeeDTO {
   username: string;
   role: RoleEnum;
   email: string;
-  profile_picture: string;
+  profilePicture: string;
 }

@@ -48,7 +48,7 @@ export class ProfilePictureUpload extends Component<Props, States> {
     onError,
   }) => {
     const formData = new FormData();
-    formData.append("profile_picture", file);
+    formData.append("profilePicture", file);
     try {
       const { data } = await this.props.employeeStore!.upload(
         formData,
@@ -76,7 +76,7 @@ export class ProfilePictureUpload extends Component<Props, States> {
   render() {
     return (
       <Upload
-        name="profile_picture"
+        name="profilePicture"
         listType="picture-card"
         className="profile-picture-uploader"
         showUploadList={false}
