@@ -17,6 +17,7 @@ import { inject, observer } from "mobx-react";
 import { Roles } from "../../const";
 import { AlertMessage } from "../../components";
 import { EmployeeEntityResponse } from "../../services/employee/employee.payload";
+import { ProfilePictureUpload } from "./profile-picture-upload";
 
 interface Props {
   employeeStore?: EmployeeStore;
@@ -194,6 +195,13 @@ export class EmployeeManageDrawer extends Component<Props, States> {
             >
               <Input placeholder="Username" />
             </Form.Item>
+            <Form.Item
+              label="Email"
+              name="email"
+              rules={[{ required: true, type: "email" }]}
+            >
+              <Input placeholder="Email" />
+            </Form.Item>
             <Form.Item label="Role" name="role" rules={[{ required: true }]}>
               <Select placeholder="Select a role">
                 {Roles.map((e) => (
@@ -202,6 +210,9 @@ export class EmployeeManageDrawer extends Component<Props, States> {
                   </Select.Option>
                 ))}
               </Select>
+            </Form.Item>
+            <Form.Item label="Picture" name="profile_picture">
+              <ProfilePictureUpload />
             </Form.Item>
             <Form.Item
               label="Password"
