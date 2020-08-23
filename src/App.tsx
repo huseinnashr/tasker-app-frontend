@@ -1,14 +1,17 @@
 import "./App.css";
 import React, { Fragment, Component } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch } from "react-router-dom";
 import { SignInPage, EmployeeListPage } from "./pages";
-import { UnauthorizedRoute, AuthorizedRoute } from "./components";
+import { UnauthorizedRoute, AuthorizedRoute, RoleRoute } from "./components";
 import { Layout } from "antd";
 import { AppNavbar, AppContent, AppFooter } from "./layout";
 import { DashboardRoute } from "./components/dashboard-route";
+import { RoleEnum } from "./enum";
 
 export class App extends Component {
   render() {
+    const ADMIN = [RoleEnum.ADMIN];
+
     return (
       <Fragment>
         <Switch>
@@ -20,9 +23,9 @@ export class App extends Component {
               <AppNavbar />
               <AppContent>
                 <DashboardRoute exact path="/" />
-                <Route exact path="/admin/employee">
+                <RoleRoute roles={ADMIN} exact path="/admin/employee">
                   <EmployeeListPage />
-                </Route>
+                </RoleRoute>
               </AppContent>
               <AppFooter />
             </Layout>
