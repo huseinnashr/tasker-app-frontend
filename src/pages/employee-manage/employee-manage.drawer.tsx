@@ -138,7 +138,6 @@ export class EmployeeManageDrawer extends Component<Props, States> {
           if (!visible) this.onClose();
         }}
         closable={false}
-        bodyStyle={{ paddingBottom: 80 }}
         footer={
           <Spin spinning={this.state.drawerLoading}>
             <div
@@ -194,6 +193,24 @@ export class EmployeeManageDrawer extends Component<Props, States> {
               ]}
             >
               <Input placeholder="Username" />
+            </Form.Item>
+            <Form.Item
+              label="Firstname"
+              name="firstName"
+              rules={[
+                { required: true, message: "Please input the firstname!" },
+              ]}
+            >
+              <Input placeholder="Firstname" />
+            </Form.Item>
+            <Form.Item
+              label="Lastname"
+              name="lastName"
+              rules={[
+                { required: true, message: "Please input the lastname!" },
+              ]}
+            >
+              <Input placeholder="Lastname" />
             </Form.Item>
             <Form.Item
               label="Email"
