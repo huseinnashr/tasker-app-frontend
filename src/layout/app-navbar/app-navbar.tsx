@@ -32,6 +32,9 @@ export class AppNavbar extends Component<AppNavbarProps> {
           selectable={false}
           style={{ lineHeight: "64px" }}
         >
+          <Menu.Item key="dashboard">
+            <Link to="/">Dashboard</Link>
+          </Menu.Item>
           <Menu.Item key="admin-employee">
             <Link to="/admin/employee">Employee</Link>
           </Menu.Item>

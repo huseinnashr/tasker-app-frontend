@@ -1,10 +1,11 @@
 import "./App.css";
 import React, { Fragment, Component } from "react";
-import { Switch } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import { SignInPage, EmployeeListPage } from "./pages";
 import { UnauthorizedRoute, AuthorizedRoute } from "./components";
 import { Layout } from "antd";
 import { AppNavbar, AppContent, AppFooter } from "./layout";
+import { DashboardRoute } from "./components/dashboard-route";
 
 export class App extends Component {
   render() {
@@ -18,9 +19,10 @@ export class App extends Component {
             <Layout>
               <AppNavbar />
               <AppContent>
-                <AuthorizedRoute exact path="/admin/employee">
+                <DashboardRoute exact path="/" />
+                <Route exact path="/admin/employee">
                   <EmployeeListPage />
-                </AuthorizedRoute>
+                </Route>
               </AppContent>
               <AppFooter />
             </Layout>
