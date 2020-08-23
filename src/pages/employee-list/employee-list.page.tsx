@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Table } from "antd";
+import { Button, Table, Typography } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { EmployeeStore } from "../../stores";
 import { EmployeeDTO } from "../../dtos/employee.dto";
@@ -64,6 +64,7 @@ export class EmployeeListPage extends Component<Props, States> {
     const { employees } = this.props.employeeStore!;
     return (
       <div style={{ background: "#fff", padding: "24px" }}>
+        <Typography.Title level={1}>Manage Employee</Typography.Title>
         <Button
           disabled={this.state.employeeLoading}
           type="primary"
