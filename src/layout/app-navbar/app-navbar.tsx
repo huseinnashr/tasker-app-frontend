@@ -1,9 +1,15 @@
 import React, { Component } from "react";
 import { Layout, Menu } from "antd";
 import { Link } from "react-router-dom";
-import { UserOutlined } from "@ant-design/icons";
+import {
+  HomeOutlined,
+  UsergroupAddOutlined,
+  PlusOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import { inject, observer } from "mobx-react";
 import { AuthStore } from "../../stores";
+import { RoleEnum } from "../../enum";
 
 interface AppNavbarProps {
   authStore?: AuthStore;
@@ -14,6 +20,7 @@ interface AppNavbarProps {
 export class AppNavbar extends Component<AppNavbarProps> {
   render() {
     const { authStore } = this.props;
+    const { auth } = authStore!;
     return (
       <Layout.Header className="header">
         <img
@@ -32,15 +39,26 @@ export class AppNavbar extends Component<AppNavbarProps> {
           selectable={false}
           style={{ lineHeight: "64px" }}
         >
-          <Menu.Item key="dashboard">
+          <Menu.Item key="dashboard" icon={<HomeOutlined />}>
             <Link to="/">Dashboard</Link>
           </Menu.Item>
-          <Menu.Item key="admin-employee">
+          <Menu.Item
+            key="admin-employee"
+            hidden={auth?.role !== RoleEnum.ADMIN}
+            icon={<UsergroupAddOutlined />}
+          >
             <Link to="/admin/employee">Employee</Link>
+          </Menu.Item>
+          <Menu.Item
+            key="create-project"
+            hidden={auth?.role !== RoleEnum.MANAGER}
+            icon={<PlusOutlined />}
+          >
+            <Link to="/create-project">Create a Project</Link>
           </Menu.Item>
           <Menu.SubMenu
             icon={<UserOutlined />}
-            title={`${authStore!.auth?.username} - ${authStore!.auth?.role}`}
+            title={`${auth?.username} - ${auth?.role}`}
             style={{ float: "right" }}
           >
             <Menu.Item key="setting">Setting</Menu.Item>
