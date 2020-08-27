@@ -63,7 +63,7 @@ export class EmployeeListPage extends Component<Props, States> {
   render() {
     const { employees } = this.props.employeeStore!;
     return (
-      <div style={{ background: "#fff", padding: "24px" }}>
+      <div style={{ background: "#fff" }}>
         <Typography.Title level={1}>Manage Employee</Typography.Title>
         <Button
           disabled={this.state.employeeLoading}
