@@ -1,8 +1,5 @@
 import { SignInDTO } from "../auth";
-
-export interface AuthStorageSubscriber {
-  onAuthStorageChange: (auth: SignInDTO | null) => void;
-}
+import { AuthStorageSubscriber } from ".";
 
 export class AuthStorageService {
   private _auth: SignInDTO | null = null;

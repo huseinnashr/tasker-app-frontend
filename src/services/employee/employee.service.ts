@@ -1,33 +1,28 @@
 import { HttpService } from "../http.service";
 import {
-  EmployeeListResponse,
-  EmployeeListEntityResponse,
+  EmployeeLWPDTO,
+  EmployeeEWPDTO,
+  EmployeeEDTO,
   CreateEmployeeDTO,
-  EmployeeEntityResponse,
-  ProfilePictureEntityResponse,
-} from "./employee.payload";
+  ProfilePictureEDTO,
+} from ".";
 import { OnUploadProgress } from "../shared";
 
-type L = EmployeeListResponse;
-type LE = EmployeeListEntityResponse;
-type E = EmployeeEntityResponse;
-type PPE = ProfilePictureEntityResponse;
-
 export class EmployeeService extends HttpService {
-  async getAll(): Promise<L> {
-    return this.http<L>("GET", "/employee");
+  async getAll(): Promise<EmployeeLWPDTO> {
+    return this.http<EmployeeLWPDTO>("GET", "/employee");
   }
 
-  async create(data: CreateEmployeeDTO): Promise<LE> {
-    return this.http<LE>("POST", "/employee", data);
+  async create(data: CreateEmployeeDTO): Promise<EmployeeEDTO> {
+    return this.http<EmployeeEDTO>("POST", "/employee", data);
   }
 
-  async get(id: number): Promise<E> {
-    return this.http<E>("GET", `/employee/${id}`);
+  async get(id: number): Promise<EmployeeEWPDTO> {
+    return this.http<EmployeeEWPDTO>("GET", `/employee/${id}`);
   }
 
-  async update(id: number, data: CreateEmployeeDTO): Promise<LE> {
-    return this.http<LE>("PUT", `/employee/${id}`, data);
+  async update(id: number, data: CreateEmployeeDTO): Promise<EmployeeEDTO> {
+    return this.http<EmployeeEDTO>("PUT", `/employee/${id}`, data);
   }
 
   async delete(id: number): Promise<void> {
@@ -37,9 +32,9 @@ export class EmployeeService extends HttpService {
   async upload(
     data: FormData,
     onUploadProgress: OnUploadProgress
-  ): Promise<PPE> {
-    return this.http<PPE>("POST", `/employee/profile-picture`, data, {
-      onUploadProgress,
-    });
+  ): Promise<ProfilePictureEDTO> {
+    const endoint = `/employee/profile-picture`;
+    const config = { onUploadProgress };
+    return this.http<ProfilePictureEDTO>("POST", endoint, data, config);
   }
 }

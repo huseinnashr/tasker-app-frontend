@@ -16,8 +16,8 @@ import { UserError } from "../../interfaces";
 import { inject, observer } from "mobx-react";
 import { Roles } from "../../const";
 import { AlertMessage } from "../../components";
-import { EmployeeEntityResponse } from "../../services/employee/employee.payload";
 import { ProfilePictureUpload } from "./profile-picture-upload";
+import { EmployeeEWPDTO } from "../../services/employee";
 
 interface Props {
   employeeStore?: EmployeeStore;
@@ -28,7 +28,7 @@ interface States {
   manageLoading: boolean;
   manageError: UserError | null;
   visible: boolean;
-  employee: EmployeeEntityResponse | null;
+  employee: EmployeeEWPDTO | null;
 }
 
 @inject("employeeStore")

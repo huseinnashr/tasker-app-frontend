@@ -1,20 +1,20 @@
 import { observable, action } from "mobx";
 import {
-  EmployeeListResponse,
+  EmployeeLWPDTO,
   CreateEmployeeDTO,
-  EmployeeEntityResponse,
+  EmployeeEWPDTO,
   UpdateEmployeeDTO,
-  ProfilePictureEntityResponse,
-} from "../../services/employee/employee.payload";
+  ProfilePictureEDTO,
+} from "../../services/employee";
 import { EmployeeService } from "../../services/employee";
 import { OnUploadProgress } from "../../services/shared";
 
 export class EmployeeStore {
-  @observable employees: EmployeeListResponse = {
+  @observable employees: EmployeeLWPDTO = {
     data: [],
     permission: { create: false },
   };
-  @observable employee: EmployeeEntityResponse | null = null;
+  @observable employee: EmployeeEWPDTO | null = null;
 
   constructor(private employeeService: EmployeeService) {}
 
@@ -34,7 +34,7 @@ export class EmployeeStore {
   }
 
   @action
-  async get(id: number): Promise<EmployeeEntityResponse> {
+  async get(id: number): Promise<EmployeeEWPDTO> {
     const response = await this.employeeService.get(id);
     this.employee = response;
     return this.employee;
@@ -69,7 +69,7 @@ export class EmployeeStore {
   async upload(
     data: FormData,
     onUploadProgress: OnUploadProgress
-  ): Promise<ProfilePictureEntityResponse> {
+  ): Promise<ProfilePictureEDTO> {
     return this.employeeService.upload(data, onUploadProgress);
   }
 }
