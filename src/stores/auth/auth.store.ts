@@ -24,8 +24,8 @@ export class AuthStore implements AuthStorageSubscriber {
   @action
   async signin(username: string, password: string) {
     const response = await this.authService.signin(username, password);
-    this.auth = response.data;
     this.authStorage.save(response.data);
+    this.auth = response.data;
   }
 
   @action
