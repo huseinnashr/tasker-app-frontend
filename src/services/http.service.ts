@@ -1,6 +1,6 @@
 import axios, { Method, AxiosRequestConfig } from "axios";
 import { UserError, RedirectError } from "../interfaces";
-import { AuthStorageService } from "./auth-storage.service";
+import { AuthStorageService } from "./auth-storage";
 
 interface DefaultAxiosConfig {
   method: Method;

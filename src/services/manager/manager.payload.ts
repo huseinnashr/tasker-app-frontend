@@ -1,4 +1,4 @@
 import { ListEntityResponse } from "..";
-import { ManagerDTO } from "../../dtos/manager.dto";
+import { ManagerDTO } from ".";
 
 export interface ManagerEDTO extends ListEntityResponse<ManagerDTO> {}

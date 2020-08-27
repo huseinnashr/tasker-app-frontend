@@ -1,5 +1,4 @@
 import { observable, action } from "mobx";
-import { EmployeeService, OnUploadProgress } from "../../services";
 import {
   EmployeeListResponse,
   CreateEmployeeDTO,
@@ -7,6 +6,8 @@ import {
   UpdateEmployeeDTO,
   ProfilePictureEntityResponse,
 } from "../../services/employee/employee.payload";
+import { EmployeeService } from "../../services/employee";
+import { OnUploadProgress } from "../../services";
 
 export class EmployeeStore {
   @observable employees: EmployeeListResponse = {

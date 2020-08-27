@@ -3,12 +3,10 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "mobx-react";
 import { Router } from "react-router-dom";
-import {
-  AuthService,
-  EmployeeService,
-  AuthStorageService,
-  ManagerService,
-} from "./services";
+import { AuthStorageService } from "./services/auth-storage";
+import { AuthService } from "./services/auth";
+import { EmployeeService } from "./services/employee";
+import { ManagerService } from "./services/manager";
 import { createBrowserHistory } from "history";
 import { RouterStore, syncHistoryWithStore } from "mobx-react-router";
 import { App } from "./App";

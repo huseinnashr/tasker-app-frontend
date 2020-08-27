@@ -1,5 +1,5 @@
 import { ListResponse, ListEntityResponse, EntityResponse } from "..";
-import { EmployeeDTO } from "../../dtos/employee.dto";
+import { EmployeeDTO } from "./dtos/responses/employee.dto";
 import { RoleEnum } from "../../enum";
 
 export type CreateEmployeeDTO = {

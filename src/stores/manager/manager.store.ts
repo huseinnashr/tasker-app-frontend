@@ -1,5 +1,5 @@
 import { observable, action } from "mobx";
-import { ManagerService } from "../../services";
+import { ManagerService } from "../../services/manager";
 import { ManagerEDTO } from "../../services/manager/manager.payload";
 
 export class ManagerStore {

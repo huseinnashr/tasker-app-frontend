@@ -1,4 +1,4 @@
 import { ListEntityResponse } from "..";
-import { SignInDTO } from "../../dtos";
+import { SignInDTO } from ".";
 
 export type SignInResponse = ListEntityResponse<SignInDTO>;

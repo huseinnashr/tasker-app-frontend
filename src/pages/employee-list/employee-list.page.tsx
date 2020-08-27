@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Button, Table, Typography } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { EmployeeStore } from "../../stores";
-import { EmployeeDTO } from "../../dtos/employee.dto";
+import { EmployeeDTO } from "../../services/employee/dtos/responses/employee.dto";
 import { inject, observer } from "mobx-react";
 import { EmployeeManageDrawer } from "..";
 

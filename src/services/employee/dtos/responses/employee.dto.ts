@@ -1,4 +1,4 @@
-import { RoleEnum } from "../enum";
+import { RoleEnum } from "../../../../enum";
 
 export interface EmployeeDTO {
   id: number;

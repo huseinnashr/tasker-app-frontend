@@ -6,7 +6,7 @@ import {
   EmployeeEntityResponse,
   ProfilePictureEntityResponse,
 } from "./employee.payload";
-import { OnUploadProgress } from "..";
+import { OnUploadProgress } from "../interfaces";
 
 type L = EmployeeListResponse;
 type LE = EmployeeListEntityResponse;

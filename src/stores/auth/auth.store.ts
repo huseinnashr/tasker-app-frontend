@@ -1,10 +1,9 @@
 import { observable, action } from "mobx";
 import {
-  AuthService,
-  AuthStorageService,
   AuthStorageSubscriber,
-} from "../../services";
-import { SignInDTO } from "../../dtos";
+  AuthStorageService,
+} from "../../services/auth-storage";
+import { SignInDTO, AuthService } from "../../services/auth";
 
 export class AuthStore implements AuthStorageSubscriber {
   @observable auth: SignInDTO | null = null;
