@@ -1,4 +1,4 @@
-import { EntityResponse } from "../../../shared";
+import { EntityWithPermissionDTO } from "../../../shared";
 import { EmployeeDTO } from "../..";
 
-export interface EmployeeEWPDTO extends EntityResponse<EmployeeDTO> {}
+export interface EmployeeEWPDTO extends EntityWithPermissionDTO<EmployeeDTO> {}

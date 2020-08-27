@@ -1,4 +1,4 @@
-import { ListEntityResponse } from "../../../shared";
+import { EntityDTO } from "../../../shared";
 import { SignInDTO } from "./sign-in.dto";
 
-export interface SignInEDTO extends ListEntityResponse<SignInDTO> {}
+export interface SignInEDTO extends EntityDTO<SignInDTO> {}

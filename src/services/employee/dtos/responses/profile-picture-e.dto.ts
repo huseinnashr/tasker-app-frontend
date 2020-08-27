@@ -1,5 +1,4 @@
 import { ProfilePictureDTO } from "./profile-picture.dto";
-import { ListEntityResponse } from "../../../shared";
+import { EntityDTO } from "../../../shared";
 
-export interface ProfilePictureEDTO
-  extends ListEntityResponse<ProfilePictureDTO> {}
+export interface ProfilePictureEDTO extends EntityDTO<ProfilePictureDTO> {}
