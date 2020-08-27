@@ -7,7 +7,7 @@ import {
   ProfilePictureEntityResponse,
 } from "../../services/employee/employee.payload";
 import { EmployeeService } from "../../services/employee";
-import { OnUploadProgress } from "../../services";
+import { OnUploadProgress } from "../../services/shared";
 
 export class EmployeeStore {
   @observable employees: EmployeeListResponse = {

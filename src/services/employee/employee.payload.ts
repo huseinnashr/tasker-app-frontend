@@ -1,4 +1,4 @@
-import { ListResponse, ListEntityResponse, EntityResponse } from "..";
+import { ListEntityResponse, ListResponse, EntityResponse } from "../shared";
 import { EmployeeDTO } from "./dtos/responses/employee.dto";
 import { RoleEnum } from "../../enum";
 
