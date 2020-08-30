@@ -7,11 +7,17 @@ import { AuthStorageService } from "./services/auth-storage";
 import { AuthService } from "./services/auth";
 import { EmployeeService } from "./services/employee";
 import { ManagerService } from "./services/manager";
+import { ProfilePictureService } from "./services/profile-picture";
 import { createBrowserHistory } from "history";
 import { RouterStore, syncHistoryWithStore } from "mobx-react-router";
 import { App } from "./App";
 import * as serviceWorker from "./serviceWorker";
-import { EmployeeStore, AuthStore, ManagerStore } from "./stores";
+import {
+  EmployeeStore,
+  AuthStore,
+  ManagerStore,
+  ProfilePictureStore,
+} from "./stores";
 
 const routerStore = new RouterStore();
 const browserHistory = createBrowserHistory();
@@ -21,14 +27,24 @@ const authStorage = new AuthStorageService();
 const authService = new AuthService(authStorage);
 const employeeService = new EmployeeService(authStorage);
 const managerService = new ManagerService(authStorage);
+const profilePictureService = new ProfilePictureService(authStorage);
 
 const authStore = new AuthStore(authService, authStorage);
 const employeeStore = new EmployeeStore(employeeService);
 const managerStore = new ManagerStore(managerService);
+const profilePictureStore = new ProfilePictureStore(profilePictureService);
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider {...{ routerStore, authStore, employeeStore, managerStore }}>
+    <Provider
+      {...{
+        routerStore,
+        authStore,
+        employeeStore,
+        managerStore,
+        profilePictureStore,
+      }}
+    >
       <Router history={history}>
         <App />
       </Router>

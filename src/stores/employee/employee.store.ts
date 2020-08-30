@@ -4,10 +4,8 @@ import {
   CreateEmployeeDTO,
   EmployeeEWPDTO,
   UpdateEmployeeDTO,
-  ProfilePictureEDTO,
 } from "../../services/employee";
 import { EmployeeService } from "../../services/employee";
-import { OnUploadProgress } from "../../services/shared";
 
 export class EmployeeStore {
   @observable employees: EmployeeLWPDTO = {
@@ -63,13 +61,5 @@ export class EmployeeStore {
     this.employees.data = observable.array(
       this.employees.data.filter((e) => e.id !== id)
     );
-  }
-
-  @action
-  async upload(
-    data: FormData,
-    onUploadProgress: OnUploadProgress
-  ): Promise<ProfilePictureEDTO> {
-    return this.employeeService.upload(data, onUploadProgress);
   }
 }

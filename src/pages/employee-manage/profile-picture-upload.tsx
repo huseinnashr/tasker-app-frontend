@@ -3,13 +3,13 @@ import React, { Component } from "react";
 
 import { Avatar, Upload, message } from "antd";
 import { PlusOutlined, LoadingOutlined } from "@ant-design/icons";
-import { EmployeeStore } from "../../stores";
+import { ProfilePictureStore } from "../../stores";
 import { inject, observer } from "mobx-react";
 import { UploadProps } from "antd/lib/upload/interface";
 import { BACKEND_URL } from "../../services/http.service";
 
 interface Props {
-  employeeStore?: EmployeeStore;
+  profilePictureStore?: ProfilePictureStore;
   value?: string;
   onChange?: (value: string) => void;
 }
@@ -18,7 +18,7 @@ interface States {
   loading: boolean;
 }
 
-@inject("employeeStore")
+@inject("profilePictureStore")
 @observer
 export class ProfilePictureUpload extends Component<Props, States> {
   constructor(props: Props) {
@@ -50,7 +50,7 @@ export class ProfilePictureUpload extends Component<Props, States> {
     const formData = new FormData();
     formData.append("profilePicture", file);
     try {
-      const { data } = await this.props.employeeStore!.upload(
+      const { data } = await this.props.profilePictureStore!.upload(
         formData,
         ({ total, loaded }) => {
           onProgress({ percent: Math.round((loaded / total) * 100) }, file);

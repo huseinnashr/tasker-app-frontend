@@ -4,9 +4,7 @@ import {
   EmployeeEWPDTO,
   EmployeeEDTO,
   CreateEmployeeDTO,
-  ProfilePictureEDTO,
 } from ".";
-import { OnUploadProgress } from "../shared";
 
 export class EmployeeService extends HttpService {
   async getAll(): Promise<EmployeeLWPDTO> {
@@ -27,14 +25,5 @@ export class EmployeeService extends HttpService {
 
   async delete(id: number): Promise<void> {
     return this.http("DELETE", `/employee/${id}`);
-  }
-
-  async upload(
-    data: FormData,
-    onUploadProgress: OnUploadProgress
-  ): Promise<ProfilePictureEDTO> {
-    const endoint = `/employee/profile-picture`;
-    const config = { onUploadProgress };
-    return this.http<ProfilePictureEDTO>("POST", endoint, data, config);
   }
 }
