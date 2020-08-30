@@ -6,7 +6,6 @@ import { PlusOutlined, LoadingOutlined } from "@ant-design/icons";
 import { ProfilePictureStore } from "../../stores";
 import { inject, observer } from "mobx-react";
 import { UploadProps } from "antd/lib/upload/interface";
-import { BACKEND_URL } from "../../services/http.service";
 
 interface Props {
   profilePictureStore?: ProfilePictureStore;
@@ -89,7 +88,7 @@ export class ProfilePictureUpload extends Component<Props, States> {
           <Avatar
             shape="square"
             size={86}
-            src={`${BACKEND_URL}/profile-picture/${this.props.value}`}
+            src={this.props.profilePictureStore!.get(this.props.value)}
           />
         ) : (
           <div>

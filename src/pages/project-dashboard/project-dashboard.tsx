@@ -2,11 +2,11 @@ import { Component } from "react";
 import React from "react";
 import { Col, Row, Avatar, Typography } from "antd";
 import { inject, observer } from "mobx-react";
-import { ManagerStore, AuthStore } from "../../stores";
-import { BACKEND_URL } from "../../services/http.service";
+import { ManagerStore, AuthStore, ProfilePictureStore } from "../../stores";
 
 interface Props {
   managerStore?: ManagerStore;
+  profilePictureStore?: ProfilePictureStore;
   authStore?: AuthStore;
 }
 
@@ -14,7 +14,7 @@ interface States {
   managerLoading: boolean;
 }
 
-@inject("managerStore", "authStore")
+@inject("managerStore", "profilePictureStore", "authStore")
 @observer
 export class ProjectDashboard extends Component<Props, States> {
   async componentDidMount() {
@@ -31,7 +31,7 @@ export class ProjectDashboard extends Component<Props, States> {
         <Col span={6}>
           <Avatar
             size={180}
-            src={`${BACKEND_URL}/profile-picture/${manager?.profilePicture}`}
+            src={this.props.profilePictureStore!.get(manager?.profilePicture)}
           />
           <Typography.Title level={2}>
             {`${manager?.firstName} ${manager?.lastName} @${manager?.username}`}

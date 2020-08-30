@@ -1,4 +1,3 @@
-import { action } from "mobx";
 import { OnUploadProgress } from "../../services/shared";
 import {
   ProfilePictureEDTO,
@@ -8,11 +7,15 @@ import {
 export class ProfilePictureStore {
   constructor(private ppService: ProfilePictureService) {}
 
-  @action
   async upload(
     data: FormData,
     onUploadProgress: OnUploadProgress
   ): Promise<ProfilePictureEDTO> {
     return this.ppService.upload(data, onUploadProgress);
+  }
+
+  get(profilePictureId: string | undefined): string {
+    if (profilePictureId) return this.ppService.get(profilePictureId);
+    else return "";
   }
 }

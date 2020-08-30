@@ -12,8 +12,9 @@ interface DefaultAxiosConfig {
 
 type OtherAxiosConfig = Omit<AxiosRequestConfig, keyof DefaultAxiosConfig>;
 
-export const BACKEND_URL = "http://localhost:3000";
 export class HttpService {
+  protected BACKEND_URL = "http://localhost:3000";
+
   constructor(private authStorage: AuthStorageService) {}
 
   protected async http<T>(
@@ -65,7 +66,7 @@ export class HttpService {
 
     return {
       method,
-      baseURL: BACKEND_URL,
+      baseURL: this.BACKEND_URL,
       url,
       data,
       headers: {

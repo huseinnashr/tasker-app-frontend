@@ -11,4 +11,8 @@ export class ProfilePictureService extends HttpService {
     const config = { onUploadProgress };
     return this.http<ProfilePictureEDTO>("POST", endoint, data, config);
   }
+
+  get(profilePictureId: string): string {
+    return `${this.BACKEND_URL}/profile-picture/${profilePictureId}`;
+  }
 }
